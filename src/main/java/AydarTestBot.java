@@ -1,3 +1,4 @@
+import lombok.SneakyThrows;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMediaGroup;
@@ -19,17 +20,19 @@ public class AydarTestBot extends TelegramLongPollingBot {
     public String getBotUsername() { return USERNAME; }
     public String getBotToken() { return TOKEN; }
 
+    @SneakyThrows
     @Override
     public void onUpdateReceived(Update update) {
-        if (update.getMessage() != null && update.getMessage().hasText()) {
-            long chat_id = update.getMessage().getChatId();
+        User user1 = new User();
+     user1.chat_id = update.getMessage().getChatId();
+       if (update.getMessage().getText().equals("/start")) {
+           execute(new SendMessage(user1.chat_id, "Привет, введи имя именниника"));
+       }
 
-            try {
-                execute(new SendMessage(chat_id, "подпишись на меня в инсте https://www.instagram.com/aydarfx/"));
-            } catch (TelegramApiException e) {
-                e.printStackTrace();
-            }
-        }
+
+
+
+
 
     }
 
