@@ -25,7 +25,7 @@ public class AydarTestBot extends TelegramLongPollingBot {
             long chat_id = update.getMessage().getChatId();
 
             try {
-                execute(new SendMessage(chat_id, "подпишись на меня в инсте https://www.instagram.com/aydarfx/"));
+                execute(new SendMessage(chat_id, update.getMessage().getText()));
             } catch (TelegramApiException e) {
                 e.printStackTrace();
             }
