@@ -1,6 +1,4 @@
-import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
-import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -18,29 +16,7 @@ public class AydarTestBot extends TelegramLongPollingBot {
     private static final String TOKEN = "1300405012:AAFR2a8RVzx7rAQdD61SmpXviOpiTDPBLdU";
     private static final String USERNAME = "aydar_test_bot";
 
-    public static void main(String[] args) {
-        ApiContextInitializer.init();
-        TelegramBotsApi botsApi = new TelegramBotsApi();
-        try {
-            botsApi.registerBot(new AydarTestBot());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
-    public void sendMsg(Message message, String text){
-        SendMessage sendMessage = new SendMessage();
-        sendMessage.enableMarkdown(true);
-        sendMessage.setChatId(message.getChatId().toString());
-       // sendMessage.setReplyToMessageId(message.getMessageId()); - реплаит сообщение
-        sendMessage.setText(text);
-        try {
-            setButtons(sendMessage);
-            execute(sendMessage);
-        } catch (TelegramApiException e) {
-            e.printStackTrace();
-        }
-    }
 
     public void setButtons (SendMessage sendMessage) {
         ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
@@ -51,43 +27,54 @@ public class AydarTestBot extends TelegramLongPollingBot {
 
         List<KeyboardRow> keyboardRowsList = new ArrayList<>();
         KeyboardRow keyboardRowFirst = new KeyboardRow();
-        keyboardRowFirst.add(new KeyboardButton( "/print userName"));
-        keyboardRowFirst.add(new KeyboardButton( "/print chat_id"));
-        keyboardRowFirst.add(new KeyboardButton( "/add birthDate"));
-
+        keyboardRowFirst.add(new KeyboardButton( "/добавить дату рождения"));
         keyboardRowsList.add(keyboardRowFirst);
         replyKeyboardMarkup.setKeyboard(keyboardRowsList);
-
     }
 
     public String getBotUsername() { return USERNAME; }
     public String getBotToken() { return TOKEN; }
+    public boolean isBirthDate = false;
 
     @Override
     public void onUpdateReceived(Update update) {
-        Message message = update.getMessage();
-        User user = new User();
-        user.chat_id = message.getChatId();
-        user.userName = message.getChat().getUserName();
+        try {
 
-        if (message != null && message.hasText()){
+            Message inMessage = update.getMessage();
+            SendMessage outMessage = new SendMessage();
+            outMessage.enableMarkdown(true);
+            User user = new User();
+            user.setChat_id(inMessage.getChatId());
+            user.setUserName(inMessage.getChat().getUserName());
+            user.mapDatabase(user.getChat_id(), user.getUserName());
+            outMessage.setChatId(user.getChat_id());
+            outMessage.setText(inMessage.getText());
 
-            switch (message.getText()){
-                case "/start":
-                    sendMsg(message, "Привет!, Нажимай на кнопки!");
-                    break;
-                case "/print userName":
-                    sendMsg(message, "имя пользователя: "+ user.userName);
-                            break;
-                case "/print chat_id":
-                    sendMsg(message, "id чата: "+ user.chat_id);
-                    break;
-                case "/add birthDate":
-                    sendMsg(message, "Введи дату рождения в формате ДД.ММ.ГГГГ");
-                    break;
-            }
-       }
+            if (isBirthDate == false && update.hasMessage() && update.getMessage().hasText() && update.getMessage().getText().equals("/добавить дату рождения") != true ) {
+
+                setButtons(outMessage);
+                execute(outMessage);
+
+            } else if (update.getMessage().getText().equals("/добавить дату рождения")) {
+
+                isBirthDate = true;
+                outMessage.setText("ВВедите дату рождения в формате ДД.ММ.ГГГГ");
+                execute(outMessage);
+
+            } else if (update.getMessage().getText().equals("/добавить дату рождения") != true && isBirthDate == true ) {
+
+                    user.setBirthDate(update.getMessage().getText());
+                    outMessage.setText("введенная дата: " + user.getBirthDate());
+                    user.mapBirthDay(user.getBirthDate(), user.getUserName());
+                    execute(outMessage);
+                    isBirthDate = false;
+                }
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
     }
+
+
 
 
 }
