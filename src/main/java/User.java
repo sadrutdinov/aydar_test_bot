@@ -1,7 +1,9 @@
 import java.util.Calendar;
+import java.util.GregorianCalendar;
+
 
 public class User {
     public String userName;
-    public Calendar birthDate;
+    public String birthDate;
     public long chat_id;
 }
