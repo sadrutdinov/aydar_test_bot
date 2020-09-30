@@ -35,6 +35,7 @@ public class AydarTestBot extends TelegramLongPollingBot {
     public String getBotUsername() { return USERNAME; }
     public String getBotToken() { return TOKEN; }
     public boolean isBirthDate = false;
+    User user = new User();
 
     @Override
     public void onUpdateReceived(Update update) {
@@ -43,13 +44,12 @@ public class AydarTestBot extends TelegramLongPollingBot {
             Message inMessage = update.getMessage();
             SendMessage outMessage = new SendMessage();
             outMessage.enableMarkdown(true);
-            User user = new User();
+
             user.setChat_id(inMessage.getChatId());
             user.setUserName(inMessage.getChat().getUserName());
             user.mapDatabase(user.getChat_id(), user.getUserName());
             outMessage.setChatId(user.getChat_id());
             outMessage.setText(inMessage.getText());
-
             if (isBirthDate == false && update.hasMessage() && update.getMessage().hasText() && update.getMessage().getText().equals("/добавить дату рождения") != true ) {
 
                 setButtons(outMessage);
