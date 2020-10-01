@@ -22,29 +22,7 @@ public class User {
         if (birthDayList.containsKey(birthDate) != true) {
             birthDayList.put(birthDate, userName); }
 
-        Iterator<Map.Entry<String, String>> iterator = birthDayList.entrySet().iterator();
-
-        while (iterator.hasNext())
-        {
-            Map.Entry<String, String> pair = iterator.next();
-            String key = pair.getKey();
-            String value = pair.getValue();
-            System.out.println(key + ":" + value);
-
-        }
-
     }
-
-    public void printTest() {
-
-
-    }
-
-
-
-
-
-
 
 }
 

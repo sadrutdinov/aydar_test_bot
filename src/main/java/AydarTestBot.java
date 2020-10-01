@@ -58,16 +58,20 @@ public class AydarTestBot extends TelegramLongPollingBot {
             } else if (update.getMessage().getText().equals("/добавить дату рождения")) {
 
                 isBirthDate = true;
-                outMessage.setText("ВВедите дату рождения в формате ДД.ММ.ГГГГ");
+                outMessage.setText("Введите дату рождения в формате ДД.ММ.ГГГГ");
                 execute(outMessage);
 
             } else if (update.getMessage().getText().equals("/добавить дату рождения") != true && isBirthDate == true ) {
 
+                if (update.getMessage().getText().length() == 10) {
                     user.setBirthDate(update.getMessage().getText());
                     outMessage.setText("введенная дата: " + user.getBirthDate());
                     user.mapBirthDay(user.getBirthDate(), user.getUserName());
                     execute(outMessage);
-                    isBirthDate = false;
+                    isBirthDate = false; }
+                else { outMessage.setText("введен неверный формат! Введите дату рождения в формате ДД.ММ.ГГГГ ");
+                    execute(outMessage);
+                     }
                 }
         } catch (TelegramApiException e) {
             e.printStackTrace();
