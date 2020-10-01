@@ -37,6 +37,11 @@ public class AydarTestBot extends TelegramLongPollingBot {
     public boolean isBirthDate = false;
     User user = new User();
 
+    public int day;
+    public int month;
+    public int year;
+
+
     @Override
     public void onUpdateReceived(Update update) {
         try {
@@ -63,14 +68,37 @@ public class AydarTestBot extends TelegramLongPollingBot {
 
             } else if (update.getMessage().getText().equals("/добавить дату рождения") != true && isBirthDate == true ) {
 
-                if (update.getMessage().getText().length() == 10) {
+               try {
+                   String x = update.getMessage().getText();
+                   String[] xList = x.split("\\D");
+                   day = Integer.parseInt(xList[0]);
+                   month = Integer.parseInt(xList[1]);
+                   year = Integer.parseInt(xList[2]);
+
+               } catch (Exception e) {
+                   outMessage.setText("введен неверный формат! Введите дату рождения в формате ДД.ММ.ГГГГ ");
+                   System.out.println(" тут");
+                   execute(outMessage);
+                   day = 0;
+                   month = 0;
+                   year = 0;
+               }
+
+                if ((update.getMessage().getText().length() == 10) && ((day > 0) && (day <32)) && ((month > 0) && (month <13)) && ((year > 1900) && (year < 2021))) {
                     user.setBirthDate(update.getMessage().getText());
                     outMessage.setText("введенная дата: " + user.getBirthDate());
                     user.mapBirthDay(user.getBirthDate(), user.getUserName());
                     execute(outMessage);
-                    isBirthDate = false; }
-                else { outMessage.setText("введен неверный формат! Введите дату рождения в формате ДД.ММ.ГГГГ ");
+                    day = 0;
+                    month = 0;
+                    year = 0;
+
+                }
+                else if ( year!=0 ){ outMessage.setText("введен неверный формат! Введите дату рождения в формате ДД.ММ.ГГГГ ");
                     execute(outMessage);
+                    day = 0;
+                    month = 0;
+                    year = 0;
                      }
                 }
         } catch (TelegramApiException e) {
