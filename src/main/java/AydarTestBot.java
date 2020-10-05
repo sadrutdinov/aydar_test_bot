@@ -15,8 +15,13 @@ public class AydarTestBot extends TelegramLongPollingBot {
 
     private static final String TOKEN = "1300405012:AAFR2a8RVzx7rAQdD61SmpXviOpiTDPBLdU";
     private static final String USERNAME = "aydar_test_bot";
-
-
+    public String getBotUsername() { return USERNAME; }
+    public String getBotToken() { return TOKEN; }
+    public boolean isBirthDate = false;
+    User user = new User();
+    public int day;
+    public int month;
+    public int year;
 
     public void setButtons (SendMessage sendMessage) {
         ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
@@ -32,16 +37,6 @@ public class AydarTestBot extends TelegramLongPollingBot {
         replyKeyboardMarkup.setKeyboard(keyboardRowsList);
     }
 
-    public String getBotUsername() { return USERNAME; }
-    public String getBotToken() { return TOKEN; }
-    public boolean isBirthDate = false;
-    User user = new User();
-
-    public int day;
-    public int month;
-    public int year;
-
-
     @Override
     public void onUpdateReceived(Update update) {
         try {
@@ -49,12 +44,12 @@ public class AydarTestBot extends TelegramLongPollingBot {
             Message inMessage = update.getMessage();
             SendMessage outMessage = new SendMessage();
             outMessage.enableMarkdown(true);
-
             user.setChat_id(inMessage.getChatId());
             user.setUserName(inMessage.getChat().getUserName());
             user.mapDatabase(user.getChat_id(), user.getUserName());
             outMessage.setChatId(user.getChat_id());
             outMessage.setText(inMessage.getText());
+
             if (isBirthDate == false && update.hasMessage() && update.getMessage().hasText() && update.getMessage().getText().equals("/добавить дату рождения") != true ) {
 
                 setButtons(outMessage);
@@ -96,7 +91,9 @@ public class AydarTestBot extends TelegramLongPollingBot {
                     isBirthDate = false;
 
                 }
-                else if ( year!=0 ){ outMessage.setText("введен неверный формат! Введите дату рождения в формате ДД.ММ.ГГГГ ");
+                else {
+                    outMessage.setText("введен неверный формат! Введите дату рождения в формате ДД.ММ.ГГГГ ");
+                    System.out.println("я зашел сюда");
                     execute(outMessage);
                     day = 0;
                     month = 0;
