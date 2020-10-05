@@ -75,6 +75,7 @@ public class AydarTestBot extends TelegramLongPollingBot {
                    month = Integer.parseInt(xList[1]);
                    year = Integer.parseInt(xList[2]);
 
+
                } catch (Exception e) {
                    outMessage.setText("введен неверный формат! Введите дату рождения в формате ДД.ММ.ГГГГ ");
                    System.out.println(" тут");
@@ -92,6 +93,7 @@ public class AydarTestBot extends TelegramLongPollingBot {
                     day = 0;
                     month = 0;
                     year = 0;
+                    isBirthDate = false;
 
                 }
                 else if ( year!=0 ){ outMessage.setText("введен неверный формат! Введите дату рождения в формате ДД.ММ.ГГГГ ");
