@@ -1,5 +1,6 @@
 package bot;
 
+import database.Database;
 import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
@@ -9,7 +10,8 @@ import service.UserService;
 
 public class AydarTestBot extends TelegramLongPollingBot {
 
-    public UserService userService = new UserService();
+    UserService userService = new UserService();
+
     private static final String TOKEN = "1300405012:AAFR2a8RVzx7rAQdD61SmpXviOpiTDPBLdU";
     private static final String USERNAME = "aydar_test_bot";
 
@@ -29,6 +31,7 @@ public class AydarTestBot extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
+
         try {
               execute(userService.service(update));
         } catch (TelegramApiException e) {
