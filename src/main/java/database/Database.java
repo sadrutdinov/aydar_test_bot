@@ -9,7 +9,7 @@ import java.util.Map;
 public class Database implements IDatabase {
 
     Map<Long, String> database = new HashMap<>();
-    Map<String, String> birthDayList = new HashMap<>();
+    Map<Long, String> birthDayList = new HashMap<>();
 
     @Override
     public void mapDatabase(long chat_id, String userName) {
@@ -25,15 +25,15 @@ public class Database implements IDatabase {
     }
 
     @Override
-    public void mapBirthDay(String birthDate, String userName) {
-        if (!birthDayList.containsKey(birthDate)) {
-            birthDayList.put(birthDate, userName); }
+    public void mapBirthDay(Long chat_id, String birthDate) {
+        if (!birthDayList.containsKey(chat_id)) {
+            birthDayList.put(chat_id, birthDate); }
 
-        for (Map.Entry<String, String> pair : birthDayList.entrySet())
+        for (Map.Entry<Long, String> pair : birthDayList.entrySet())
         {
-            String key = pair.getKey();
+            Long key = pair.getKey();
             String value = pair.getValue();
-            log.info("birthDate: " + key + " | userName: " + value);
+            log.info("chat_id: " + key + " | birthDate: " + value);
 
         }
     }
