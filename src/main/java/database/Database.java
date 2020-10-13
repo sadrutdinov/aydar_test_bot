@@ -9,7 +9,7 @@ import java.util.Map;
 public class Database implements IDatabase {
 
     Map<Long, String> database = new HashMap<>();
-    Map<Long, String> birthDayList = new HashMap<>();
+    public Map<Long, String> birthDayList = new HashMap<>();
 
     @Override
     public void mapDatabase(long chat_id, String userName) {

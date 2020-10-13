@@ -26,7 +26,7 @@ public class UserService {
     User user = new User();
     Keyboard keyboard = new Keyboard();
     private boolean isBirthDate = false;
-    private boolean addBirthDate = false;
+
 
     private int day;
     private int month;
@@ -46,12 +46,18 @@ public class UserService {
         outMessage.setText(inMessage.getText());
         keyboard.setButtons(outMessage);
 
-        if (!isBirthDate && update.hasMessage() && update.getMessage().hasText() && !update.getMessage().getText().equals("/добавить дату рождения") ) {
+
+        if (!isBirthDate && update.hasMessage() && update.getMessage().hasText() && update.getMessage().getText().equals("/start") ) {
+
+            outMessage.setText("Привет! это бот для ввода даты рождения. Чтобы добавить дату рождения, воспользуйся соответствующей кнопкой :)");
+            return outMessage;
+
+        } else if (!isBirthDate && update.hasMessage() && update.getMessage().hasText() && !update.getMessage().getText().equals("/добавить дату рождения") ) {
 
 
             return outMessage;
 
-        } else if (!addBirthDate && update.getMessage().getText().equals("/добавить дату рождения")) {
+        } else if ( update.getMessage().getText().equals("/добавить дату рождения")) {
 
             isBirthDate = true;
             outMessage.setText("Введите дату рождения в формате ДД.ММ.ГГГГ");
@@ -76,17 +82,16 @@ public class UserService {
 
             }
 
-            if (  !addBirthDate &&(update.getMessage().getText().length() == 10) && ((day > 0) && (day <32)) && ((month > 0) && (month <13)) && ((year > 1900) && (year < 2021))) {
+            if ((update.getMessage().getText().length() == 10) && ((day > 0) && (day <32)) && ((month > 0) && (month <13)) && ((year > 1900) && (year < 2021))) {
                 user.setBirthDate(update.getMessage().getText());
-                outMessage.setText("введенная дата: " + user.getBirthDate() + ". Обратите внимание," +
-                        " Вы можете ввести дату рождения только один раз! " +
-                        "Кнопка добавления дня рождения больше не будет работать, у Вас же всего один день рождения :)");
                 database1.mapBirthDay(user.getChat_id(), user.getBirthDate());
+                outMessage.setText("введенная дата: " + user.getBirthDate() +"\n"+ "\nОбратите внимание," +
+                        " Вы можете ввести дату рождения только один раз, последующие введения не будут записаны. 1-ая записанная дата: " +database1.birthDayList.get(user.getChat_id()) +"\n"+
+                        "\nУ Вас же всего один день рождения :)");
                 day = 0;
                 month = 0;
                 year = 0;
                 isBirthDate = false;
-                addBirthDate = true;
                 return outMessage;
 
 
