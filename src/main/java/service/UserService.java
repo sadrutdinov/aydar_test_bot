@@ -55,6 +55,8 @@ public class UserService {
         } else if (!isBirthDate && update.hasMessage() && update.getMessage().hasText() && !update.getMessage().getText().equals("/добавить дату рождения") ) {
 
 
+
+
             return outMessage;
 
         } else if ( update.getMessage().getText().equals("/добавить дату рождения")) {
