@@ -1,7 +1,7 @@
 package bot;
 
 
-import bot.service.IUserService;
+import bot.controller.IController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -23,24 +23,18 @@ public class AydarTestBot extends TelegramLongPollingBot {
     public String getBotToken() { return TOKEN; }
 
 
-    private IUserService iUserService;
+    private IController iController;
 
     @Autowired
-    public void setIUserService(IUserService iUserService) {
-        this.iUserService = iUserService;
+    public void setIUserService(IController iController) {
+        this.iController = iController;
     }
 
 
     @Override
     public void onUpdateReceived(Update update) {
 
-        Message inMessage = update.getMessage();
-        SendMessage outMessage = new SendMessage();
-        outMessage.enableMarkdown(true);
-
-        outMessage.setChatId(inMessage.getChatId());
-
-        outMessage.setText(iUserService.sendString());
+       SendMessage outMessage = iController.onUpdateReceivedController(update);
 
         try {
             execute(outMessage);
