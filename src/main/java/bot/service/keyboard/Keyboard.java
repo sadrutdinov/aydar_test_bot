@@ -1,5 +1,6 @@
-package service;
+package bot.service.keyboard;
 
+import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
@@ -8,7 +9,8 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.Keyboard
 import java.util.ArrayList;
 import java.util.List;
 
-public class Keyboard {
+@Component
+public class Keyboard implements IKeyboard{
     public void setButtons (SendMessage sendMessage) {
         ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
         sendMessage.setReplyMarkup(replyKeyboardMarkup);
@@ -18,7 +20,8 @@ public class Keyboard {
 
         List<KeyboardRow> keyboardRowsList = new ArrayList<>();
         KeyboardRow keyboardRowFirst = new KeyboardRow();
-        keyboardRowFirst.add(new KeyboardButton( "/добавить дату рождения"));
+        keyboardRowFirst.add(new KeyboardButton( "/addBirthDay"));
+        keyboardRowFirst.add(new KeyboardButton( "/help"));
         keyboardRowsList.add(keyboardRowFirst);
         replyKeyboardMarkup.setKeyboard(keyboardRowsList);
     }
