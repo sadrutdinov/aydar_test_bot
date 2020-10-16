@@ -1,7 +1,7 @@
 package bot.controller;
 
 
-import bot.keyboard.IKeyboard;
+import bot.service.keyboard.IKeyboard;
 import bot.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

@@ -1,5 +1,6 @@
 package bot.service;
 
+import bot.repository.IDatabase;
 import bot.service.entities.IUser;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,12 @@ public class UserService implements IUserService {
     private int month;
     private int year;
     private IUser iUser;
+    private IDatabase iDatabase;
 
+    @Autowired
+    public void setIDatabase(IDatabase iDatabase) {
+        this.iDatabase = iDatabase;
+    }
 
     @Autowired
     public void setIUser(IUser iUser) {
@@ -32,9 +38,8 @@ public class UserService implements IUserService {
     iUser.setChatId(chatId);
     iUser.setUserName(userName);
     this.message = message;
-
-        //TODO сделать маппер для нового пользователя
-        return "Привет, я классный бот, UserName: " + iUser.getUserName() + iUser.getChatId();
+        iDatabase.mapperUserName(iUser.getChatId(), iUser.getUserName());
+        return "Привет, я классный бот, который умеет запоминать день рождения";
     }
 
     public String help(String message) {
@@ -58,14 +63,14 @@ public class UserService implements IUserService {
         }
         else if (birthDay)  {
             try {
-                String x = message;
-                String[] xList = x.split("\\D");
+                String[] xList = message.split("\\D");
                 day = Integer.parseInt(xList[0]);
                 month = Integer.parseInt(xList[1]);
                 year = Integer.parseInt(xList[2]);
                 if (((day > 0) && (day <32)) && ((month > 0) && (month <13)) && ((year > 1900) && (year < 2021))) {
+                    iUser.setBirthDate(day +"."+ month +"."+ year);
                     birthDay = false;
-                //TODO сделать маппер для др
+                    iDatabase.mapperBirthDay(iUser.getChatId(), iUser.getBirthDate());
                     day = 0;
                     month = 0;
                     year = 0;
