@@ -47,6 +47,7 @@ public class UserService implements IUserService {
         return "вызывайте команды через доступные кнопки. Если вы уже ввели дату рождения, то команда добавления будет недоступна. У вас же один день рождения :)";
     }
 
+
     public String echo(String message) {
         this.message = message;
 
