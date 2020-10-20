@@ -16,7 +16,8 @@ public class Controller implements IController {
 
     private IKeyboard iKeyboard;
     private IUserService iUserService;
-    private boolean birthDay = false;
+
+
 
     @Autowired
     public void setIKeyboard(IKeyboard iKeyboard) {
@@ -24,7 +25,7 @@ public class Controller implements IController {
     }
 
     @Autowired
-    public void setiUserService(IUserService iUserService) {
+    public void setIUserService(IUserService iUserService) {
         this.iUserService = iUserService;
     }
 
@@ -45,26 +46,30 @@ public class Controller implements IController {
 
 
 
-        if (message.equals("/start") && !birthDay) {
+        if (message.equals("/start")) {
             String outMsg = iUserService.start(chatId, message, userName);
             outMessage.setText(outMsg);
         }
-        else if (message.equals("/help") && !birthDay) {
+        else if (message.equals("/help")) {
             String outMsg = iUserService.help(message);
             outMessage.setText(outMsg);
         }
-        else if (!message.equals("/help") && !message.equals("/start") || birthDay ) {
-            String outMsg = iUserService.echo(message);
+        else if (message.equals("/info")) {
+            outMessage.setText(iUserService.info(chatId));
+        }
+
+        else {
+            String outMsg = iUserService.echo(message, chatId);
             if (outMsg.equals("введите дату рождения в формате ДД.ММ.ГГГГ")) {
-                birthDay = true;
+
             }
             else if (outMsg.equals("Спасибо!")) {
-                birthDay = false;
+
 
 
             }
             else if (outMsg.equals("введен неверный формат! Введите дату рождения в формате ДД.ММ.ГГГГ")) {
-                birthDay = true;
+
             }
                 outMessage.setText(outMsg);
         }

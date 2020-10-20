@@ -6,6 +6,9 @@ import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 @Data
 @Component
@@ -14,13 +17,13 @@ public class UserService implements IUserService {
     private long chatId;
     private String message;
     private String userName;
-    private boolean birthDay;
-    private boolean SavedBirthDay;
+    private boolean birthDay = false;
     private int day;
     private int month;
     private int year;
     private IUser iUser;
     private IDatabase iDatabase;
+    List<Long> chatIdList = new ArrayList<>();
 
     @Autowired
     public void setIDatabase(IDatabase iDatabase) {
@@ -30,6 +33,12 @@ public class UserService implements IUserService {
     @Autowired
     public void setIUser(IUser iUser) {
         this.iUser = iUser;
+    }
+
+    public void chatIdTracker (Long chatId) {
+        if (!chatIdList.contains(chatId)) {
+        chatIdList.add(chatId);
+        }
     }
 
 
@@ -44,22 +53,30 @@ public class UserService implements IUserService {
 
     public String help(String message) {
         this.message = message;
-        return "вызывайте команды через доступные кнопки. Если вы уже ввели дату рождения, то команда добавления будет недоступна. У вас же один день рождения :)";
+        return "Подсказка по командам:" +"\n" +
+                "/help - вызов подсказок по командам \n" +
+                "/addBirthDay - добавить дату рождения \n" +
+                "/info - получить Ваши данные";
     }
 
 
-    public String echo(String message) {
+    @Override
+    public String info(Long chatId) {
+        return iDatabase.getUserInfo(chatId);
+    }
+
+
+
+    public String echo(String message, Long chatId) {
         this.message = message;
 
-        if (message.equals("/addBirthDay") && !birthDay){
-            if (!SavedBirthDay) {
-                birthDay = true;
-                SavedBirthDay = true;
-                return "введите дату рождения в формате ДД.ММ.ГГГГ";
+        if (message.equals("/addBirthDay")  && !birthDay) {
+            if (!chatIdList.contains(chatId)) {
+            chatIdTracker(chatId);
+            birthDay = true;
+            return "введите дату рождения в формате ДД.ММ.ГГГГ";
             }
-            else {
-                return "/addBirthDay";
-            }
+            else return "/addBirthDay";
 
         }
         else if (birthDay)  {
@@ -99,7 +116,6 @@ public class UserService implements IUserService {
 
         else return message;
     }
-
 
 
 }

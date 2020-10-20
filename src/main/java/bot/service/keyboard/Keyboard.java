@@ -22,6 +22,7 @@ public class Keyboard implements IKeyboard{
         KeyboardRow keyboardRowFirst = new KeyboardRow();
         keyboardRowFirst.add(new KeyboardButton( "/addBirthDay"));
         keyboardRowFirst.add(new KeyboardButton( "/help"));
+        keyboardRowFirst.add(new KeyboardButton( "/info"));
         keyboardRowsList.add(keyboardRowFirst);
         replyKeyboardMarkup.setKeyboard(keyboardRowsList);
     }
