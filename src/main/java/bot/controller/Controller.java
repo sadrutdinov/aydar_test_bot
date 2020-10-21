@@ -58,6 +58,7 @@ public class Controller implements IController {
             outMessage.setText(iUserService.info(chatId));
         }
 
+
         else {
             String outMsg = iUserService.echo(message, chatId);
             if (outMsg.equals("введите дату рождения в формате ДД.ММ.ГГГГ")) {
