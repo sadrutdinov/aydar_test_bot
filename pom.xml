@@ -31,8 +31,6 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <addClasspath>true</addClasspath>
-                            <classpathPrefix>org/telegram/telegrambots/ApiContextInitializer</classpathPrefix>
                             <mainClass>bot.TelegramBotApplication</mainClass>
                         </manifest>
                     </archive>
