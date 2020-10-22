@@ -33,7 +33,7 @@ public class Database implements IDatabase{
         }
     }
     public String getUserInfo(Long chatId) {
-        if (mapBirthDay.containsKey(chatId)) {
+        if (mapUserName.containsKey(chatId)) {
             return "chatId: " + chatId + "\n" + "userName: " + mapUserName.get(chatId)  + "\n" + "birthDay: " + mapBirthDay.get(chatId);
         } else
             return "данные отсутствуют";
