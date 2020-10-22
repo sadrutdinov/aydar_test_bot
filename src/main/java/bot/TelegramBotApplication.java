@@ -14,6 +14,7 @@ public class TelegramBotApplication {
 
     public static void main(String[] args) {
 
+
         ApiContextInitializer.init();
         ConfigurableApplicationContext context = SpringApplication.run(TelegramBotApplication.class, args);
         }
