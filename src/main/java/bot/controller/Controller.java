@@ -15,6 +15,8 @@ public class Controller implements IController {
     private IKeyboard iKeyboard;
     private IUserService iUserService;
     private boolean isBirthDate = false;
+    private boolean isPhoneNumber = false;
+
 
     @Autowired
     public void setIKeyboard(IKeyboard iKeyboard) {
@@ -38,21 +40,34 @@ public class Controller implements IController {
         String message = inMessage.getText();   //input message
         String userName = inMessage.getChat().getUserName();
 
-        if (message.equals("/start") && !isBirthDate) {
-            String outMsg = iUserService.start(chatId, message, userName);
-            outMessage.setText(outMsg);
+        if (message.equals("/start") && !isBirthDate && !isPhoneNumber) {
+            outMessage.setText(iUserService.start(chatId, message, userName));
         }
 
-        else if (message.equals("/help") && !isBirthDate) {
-            String outMsg = iUserService.help(message);
-            outMessage.setText(outMsg);
+        else if (message.equals("/help") && !isBirthDate && !isPhoneNumber) {
+            outMessage.setText( iUserService.help(message));
         }
 
-        else if (message.equals("/info") && !isBirthDate) {
+        else if (message.equals("/info") && !isBirthDate && !isPhoneNumber) {
             outMessage.setText(iUserService.info(chatId));
         }
 
-        else if (message.equals("/addBirthDay") && !isBirthDate || isBirthDate) {
+        else if (message.equals("/addPhoneNumber") && !isBirthDate || isPhoneNumber ) {
+            String outMsg = iUserService.addPhoneNumber(chatId, message);
+
+            if (outMsg.equals("введите номер телефона в формате 89XXXXXXXXX")) {
+                isPhoneNumber = true;
+            }
+            else if (outMsg.equals("Номер сохранен, спасибо")) {
+                isPhoneNumber = false;
+            }
+            outMessage.setText(outMsg);
+
+
+
+
+        }
+        else if (message.equals("/addBirthDay") && !isPhoneNumber || isBirthDate ) {
             String outMsg = iUserService.addBirthDay(message, chatId);
 
             if (outMsg.equals("введите дату рождения в формате ДД.ММ.ГГГГ")) {
@@ -62,11 +77,9 @@ public class Controller implements IController {
                 isBirthDate = false;
             }
             outMessage.setText(outMsg);
-
         }
         else {
-            String outMsg = iUserService.echo(message);
-            outMessage.setText(outMsg);
+            outMessage.setText(iUserService.echo(message));
         }
         outMessage.setChatId(chatId);
         iKeyboard.setButtons(outMessage);

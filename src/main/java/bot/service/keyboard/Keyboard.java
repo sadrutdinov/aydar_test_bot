@@ -20,10 +20,14 @@ public class Keyboard implements IKeyboard{
 
         List<KeyboardRow> keyboardRowsList = new ArrayList<>();
         KeyboardRow keyboardRowFirst = new KeyboardRow();
+        KeyboardRow keyboardRowSecond = new KeyboardRow();
+
         keyboardRowFirst.add(new KeyboardButton( "/addBirthDay"));
         keyboardRowFirst.add(new KeyboardButton( "/help"));
         keyboardRowFirst.add(new KeyboardButton( "/info"));
+        keyboardRowSecond.add(new KeyboardButton( "/addPhoneNumber"));
         keyboardRowsList.add(keyboardRowFirst);
+        keyboardRowsList.add(keyboardRowSecond);
         replyKeyboardMarkup.setKeyboard(keyboardRowsList);
     }
 }

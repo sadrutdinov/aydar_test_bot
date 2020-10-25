@@ -7,6 +7,7 @@ public interface IUserService {
     String info(Long chatId);
     String addBirthDay(String message, Long chatId);
     void chatIdTracker(Long chatId);
+    String addPhoneNumber(Long chatId, String message);
 
 
 

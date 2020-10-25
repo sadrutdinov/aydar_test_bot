@@ -9,6 +9,8 @@ public class User implements IUser {
     private String userName;
     private String birthDate;
     private Long chatId;
+    private String phoneNumber;
+
 
 
 

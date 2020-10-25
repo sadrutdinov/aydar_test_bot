@@ -18,12 +18,14 @@ public class UserService implements IUserService {
     private String message;
     private String userName;
     private boolean birthDay = false;
+    private boolean isPhoneNumber = false;
     private int day;
     private int month;
     private int year;
     private IUser iUser;
     private IDatabase iDatabase;
     List<Long> chatIdList = new ArrayList<>();
+    List<Long> phoneNumberList = new ArrayList<>();
 
     @Autowired
     public void setIDatabase(IDatabase iDatabase) {
@@ -41,6 +43,35 @@ public class UserService implements IUserService {
         }
     }
 
+    public void phoneNumberTracker (Long phoneNumber) {
+        if (!phoneNumberList.contains(phoneNumber)) {
+            phoneNumberList.add(phoneNumber);
+        }
+    }
+
+    @Override
+    public String addPhoneNumber(Long chatId, String message) {
+            if (!isPhoneNumber && !phoneNumberList.contains(chatId) ) {
+            phoneNumberTracker(chatId);
+            isPhoneNumber = true;
+            return "введите номер телефона в формате 89XXXXXXXXX";
+        }
+            else if (isPhoneNumber) {
+                try {
+                    if (message.length() == 11 && message.startsWith("89")) {
+                        iUser.setPhoneNumber(message);
+                        iDatabase.mapperPhoneNumber(iUser.getChatId(), iUser.getPhoneNumber());
+                        isPhoneNumber = false;
+                        return "Номер сохранен, спасибо";
+                    } else
+                        return "неправильно введен номер, повторите попытку";
+                }catch (Exception e) {
+                 return "неправильно введен номер, повторите попытку";
+                }
+            }
+            return "/addPhoneNumber";
+    }
+
     @Override
     public String start(Long chatId, String message, String userName) {
     iUser.setChatId(chatId);
@@ -55,7 +86,8 @@ public class UserService implements IUserService {
         return "Подсказка по командам:" +"\n" +
                 "/help - вызов подсказок по командам \n" +
                 "/addBirthDay - добавить дату рождения \n" +
-                "/info - получить Ваши данные";
+                "/info - получить Ваши данные \n" +
+                "/addPhoneNumber - добавить номер телефона";
     }
 
     @Override
@@ -69,7 +101,6 @@ public class UserService implements IUserService {
                 chatIdTracker(chatId);
                 birthDay = true;
                 return "введите дату рождения в формате ДД.ММ.ГГГГ";
-
         }
         else if (birthDay) {
             try {
@@ -103,7 +134,7 @@ public class UserService implements IUserService {
 
             }
         }
-        else return "/addBirthDay";
+        return "/addBirthDay";
     }
 
     public String echo(String message) {
