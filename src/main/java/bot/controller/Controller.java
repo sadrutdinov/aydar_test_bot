@@ -51,15 +51,18 @@ public class Controller implements IController {
             String outMsg = iUserService.start(chatId, message, userName);
             outMessage.setText(outMsg);
         }
+
         else if (message.equals("/help") && !isBirthDate) {
             String outMsg = iUserService.help(message);
             outMessage.setText(outMsg);
         }
+
         else if (message.equals("/info") && !isBirthDate) {
             outMessage.setText(iUserService.info(chatId));
         }
-        else {
-            String outMsg = iUserService.echo(message, chatId);
+
+        else if (message.equals("/addBirthDay") && !isBirthDate) {
+            String outMsg = iUserService.addBirthDay(message, chatId);
 
             if (outMsg.equals("введите дату рождения в формате ДД.ММ.ГГГГ")) {
                 isBirthDate = true;
@@ -69,13 +72,19 @@ public class Controller implements IController {
                 isBirthDate = false;
 
             }
-            else if (outMsg.equals("введен неверный формат! Введите дату рождения в формате ДД.ММ.ГГГГ")) {
+//            else if (outMsg.equals("введен неверный формат! Введите дату рождения в формате ДД.ММ.ГГГГ")) {
+//
+//            }
+            outMessage.setText(outMsg);
 
-            }
+        }
+        else {
+            String outMsg = iUserService.echo(message);
             outMessage.setText(outMsg);
         }
         outMessage.setChatId(chatId);
         iKeyboard.setButtons(outMessage);
+
         return outMessage;
     }
 }

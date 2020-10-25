@@ -3,8 +3,9 @@ package bot.service;
 public interface IUserService {
     String start(Long chatId, String message, String userName);
     String help(String message);
-    String echo(String message, Long chatId);
+    String echo(String message);
     String info(Long chatId);
+    String addBirthDay(String message, Long chatId);
     void chatIdTracker(Long chatId);
 
 
@@ -14,6 +15,7 @@ public interface IUserService {
 
     String getMessage();
     void setMessage(String outMessage);
+
 
 
 }

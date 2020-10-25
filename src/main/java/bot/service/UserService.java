@@ -65,21 +65,14 @@ public class UserService implements IUserService {
         return iDatabase.getUserInfo(chatId);
     }
 
-
-
-    public String echo(String message, Long chatId) {
-        this.message = message;
-
-        if (message.equals("/addBirthDay")  && !birthDay) {
-            if (!chatIdList.contains(chatId)) {
-            chatIdTracker(chatId);
-            birthDay = true;
-            return "введите дату рождения в формате ДД.ММ.ГГГГ";
-            }
-            else return "/addBirthDay";
-
+    @Override
+    public String addBirthDay(String message, Long chatId) {
+        if (!birthDay && !chatIdList.contains(chatId) ) {
+                chatIdTracker(chatId);
+                birthDay = true;
+                return "введите дату рождения в формате ДД.ММ.ГГГГ";
         }
-        else if (birthDay)  {
+        else {
             try {
                 String[] xList = message.split("\\D");
                 day = Integer.parseInt(xList[0]);
@@ -93,7 +86,6 @@ public class UserService implements IUserService {
                     month = 0;
                     year = 0;
 
-
                     return "Спасибо!";
                 }
                 else {
@@ -103,7 +95,6 @@ public class UserService implements IUserService {
 
                     return "введен неверный формат! Введите дату рождения в формате ДД.ММ.ГГГГ";
                 }
-
             } catch (Exception e) {
                 day = 0;
                 month = 0;
@@ -113,8 +104,11 @@ public class UserService implements IUserService {
 
             }
         }
+    }
 
-        else return message;
+
+    public String echo(String message) {
+        return message;
     }
 
 
