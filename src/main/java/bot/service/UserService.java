@@ -41,7 +41,6 @@ public class UserService implements IUserService {
         }
     }
 
-
     @Override
     public String start(Long chatId, String message, String userName) {
     iUser.setChatId(chatId);
@@ -59,7 +58,6 @@ public class UserService implements IUserService {
                 "/info - получить Ваши данные";
     }
 
-
     @Override
     public String info(Long chatId) {
         return iDatabase.getUserInfo(chatId);
@@ -71,8 +69,9 @@ public class UserService implements IUserService {
                 chatIdTracker(chatId);
                 birthDay = true;
                 return "введите дату рождения в формате ДД.ММ.ГГГГ";
+
         }
-        else {
+        else if (birthDay) {
             try {
                 String[] xList = message.split("\\D");
                 day = Integer.parseInt(xList[0]);
@@ -104,12 +103,10 @@ public class UserService implements IUserService {
 
             }
         }
+        else return "/addBirthDay";
     }
-
 
     public String echo(String message) {
         return message;
     }
-
-
 }

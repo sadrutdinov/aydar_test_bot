@@ -12,13 +12,9 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 @Component
 public class Controller implements IController {
 
-
-
     private IKeyboard iKeyboard;
     private IUserService iUserService;
     private boolean isBirthDate = false;
-
-
 
     @Autowired
     public void setIKeyboard(IKeyboard iKeyboard) {
@@ -29,9 +25,6 @@ public class Controller implements IController {
     public void setIUserService(IUserService iUserService) {
         this.iUserService = iUserService;
     }
-
-
-
 
     @Override
     public SendMessage onUpdateReceivedController(Update update) {
@@ -44,8 +37,6 @@ public class Controller implements IController {
         iUserService.setMessage(inMessage.getText());
         String message = inMessage.getText();   //input message
         String userName = inMessage.getChat().getUserName();
-
-
 
         if (message.equals("/start") && !isBirthDate) {
             String outMsg = iUserService.start(chatId, message, userName);
@@ -61,20 +52,15 @@ public class Controller implements IController {
             outMessage.setText(iUserService.info(chatId));
         }
 
-        else if (message.equals("/addBirthDay") && !isBirthDate) {
+        else if (message.equals("/addBirthDay") && !isBirthDate || isBirthDate) {
             String outMsg = iUserService.addBirthDay(message, chatId);
 
             if (outMsg.equals("введите дату рождения в формате ДД.ММ.ГГГГ")) {
                 isBirthDate = true;
-
             }
             else if (outMsg.equals("Спасибо!")) {
                 isBirthDate = false;
-
             }
-//            else if (outMsg.equals("введен неверный формат! Введите дату рождения в формате ДД.ММ.ГГГГ")) {
-//
-//            }
             outMessage.setText(outMsg);
 
         }
