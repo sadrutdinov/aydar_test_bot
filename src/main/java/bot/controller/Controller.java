@@ -45,11 +45,11 @@ public class Controller implements IController {
         }
 
         else if (message.equals("/help") && !isBirthDate && !isPhoneNumber) {
-            outMessage.setText( iUserService.help(message));
+            outMessage.setText( iUserService.help(chatId, message, userName));
         }
 
         else if (message.equals("/info") && !isBirthDate && !isPhoneNumber) {
-            outMessage.setText(iUserService.info(chatId));
+            outMessage.setText(iUserService.info(chatId, message, userName));
         }
 
         else if (message.equals("/addPhoneNumber") && !isBirthDate || isPhoneNumber ) {
@@ -79,7 +79,7 @@ public class Controller implements IController {
             outMessage.setText(outMsg);
         }
         else {
-            outMessage.setText(iUserService.echo(message));
+            outMessage.setText(iUserService.echo(chatId, message, userName));
         }
         outMessage.setChatId(chatId);
         iKeyboard.setButtons(outMessage);

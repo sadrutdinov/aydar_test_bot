@@ -25,6 +25,17 @@ public class UserService implements IUserService {
     private IUser iUser;
     private IDatabase iDatabase;
 
+//    @Autowired
+//    public void setIPingTask(IPingTask iPingTask) {
+//        this.iPingTask = iPingTask;
+//    }
+//
+//    private IPingTask iPingTask;
+//
+
+
+
+
     public List<Long> getChatIdList() {
         return chatIdList;
     }
@@ -90,8 +101,10 @@ public class UserService implements IUserService {
         return "Привет, я классный бот, который умеет запоминать день рождения";
     }
 
-    public String help(String message) {
+    public String help(Long chatId, String message, String userName) {
         this.message = message;
+        iUser.setChatId(chatId);
+        iUser.setUserName(userName);
         iDatabase.mapperUserName(iUser.getChatId(), iUser.getUserName());
         return "Подсказка по командам:" +"\n" +
                 "/help - вызов подсказок по командам \n" +
@@ -101,7 +114,9 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public String info(Long chatId) {
+    public String info(Long chatId, String message, String userName) {
+        iUser.setChatId(chatId);
+        iUser.setUserName(userName);
         iDatabase.mapperUserName(iUser.getChatId(), iUser.getUserName());
         return iDatabase.getUserInfo(chatId);
     }
@@ -148,7 +163,9 @@ public class UserService implements IUserService {
         }
         return "/addBirthDay";
     }
-    public String echo(String message) {
+    public String echo(Long chatId, String message, String userName) {
+        iUser.setChatId(chatId);
+        iUser.setUserName(userName);
         iDatabase.mapperUserName(iUser.getChatId(), iUser.getUserName());
         return message;
     }

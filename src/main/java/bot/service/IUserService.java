@@ -6,9 +6,9 @@ import java.util.List;
 
 public interface IUserService {
     String start(Long chatId, String message, String userName);
-    String help(String message);
-    String echo(String message);
-    String info(Long chatId);
+    String help(Long chatId, String message, String userName);
+    String echo(Long chatId, String message, String userName);
+    String info(Long chatId, String message, String userName);
     String addBirthDay(String message, Long chatId);
     void chatIdTracker(Long chatId);
     String addPhoneNumber(Long chatId, String message);
