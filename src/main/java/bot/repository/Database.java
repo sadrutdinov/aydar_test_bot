@@ -1,5 +1,8 @@
 package bot.repository;
 
+import bot.service.entities.IUser;
+import bot.service.entities.User;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import java.util.HashMap;
@@ -7,6 +10,7 @@ import java.util.Map;
 
 @Slf4j
 @Component
+
 public class Database implements IDatabase{
 
     public static final String ANSI_GREEN = "\u001B[32m";
@@ -14,6 +18,20 @@ public class Database implements IDatabase{
     Map<Long, String> mapUserName = new HashMap<>();
     Map<Long, String> mapBirthDay = new HashMap<>();
     Map<Long, String> mapPhoneNumber = new HashMap<>();
+    Map<Long, User> userMap = new HashMap<>();
+
+
+    public Map<Long, String> getMapPhoneNumber() {
+        return mapPhoneNumber;
+    }
+    public Map<Long, String> getMapUserName() {
+        return mapUserName;
+    }
+
+    public Map<Long, String> getMapBirthDay() {
+        return mapBirthDay;
+    }
+
 
     @Override
     public void mapperUserName(Long chatId, String userName) {
@@ -45,7 +63,19 @@ public class Database implements IDatabase{
         if (!mapPhoneNumber.containsKey(chatId)) {
             mapPhoneNumber.put(chatId, phoneNumber);
             log.info((ANSI_GREEN + "chatId: "+ chatId + ", phoneNumber: " + phoneNumber  + ANSI_RESET));
-
         }
     }
+
+    public Map<Long, User> getUserMap() {
+        return userMap;
+    }
+
+    @Override
+    public void mapperUser (Long chatId, IUser iUser) {
+        if (mapUserName.get(chatId) != null && mapBirthDay.get(chatId) != null && mapPhoneNumber.get(chatId) != null) {
+            userMap.put(chatId, (User) iUser);
+            log.info(userMap.get(chatId).toString());
+        }
+    }
+
 }

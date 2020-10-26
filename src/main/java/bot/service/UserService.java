@@ -24,6 +24,15 @@ public class UserService implements IUserService {
     private int year;
     private IUser iUser;
     private IDatabase iDatabase;
+
+    public List<Long> getChatIdList() {
+        return chatIdList;
+    }
+
+    public List<Long> getPhoneNumberList() {
+        return phoneNumberList;
+    }
+
     List<Long> chatIdList = new ArrayList<>();
     List<Long> phoneNumberList = new ArrayList<>();
 
@@ -61,6 +70,7 @@ public class UserService implements IUserService {
                     if (message.length() == 11 && message.startsWith("89")) {
                         iUser.setPhoneNumber(message);
                         iDatabase.mapperPhoneNumber(iUser.getChatId(), iUser.getPhoneNumber());
+                        iDatabase.mapperUser(chatId, iUser);
                         isPhoneNumber = false;
                         return "Номер сохранен, спасибо";
                     } else
@@ -76,13 +86,13 @@ public class UserService implements IUserService {
     public String start(Long chatId, String message, String userName) {
     iUser.setChatId(chatId);
     iUser.setUserName(userName);
-    this.message = message;
         iDatabase.mapperUserName(iUser.getChatId(), iUser.getUserName());
         return "Привет, я классный бот, который умеет запоминать день рождения";
     }
 
     public String help(String message) {
         this.message = message;
+        iDatabase.mapperUserName(iUser.getChatId(), iUser.getUserName());
         return "Подсказка по командам:" +"\n" +
                 "/help - вызов подсказок по командам \n" +
                 "/addBirthDay - добавить дату рождения \n" +
@@ -92,6 +102,7 @@ public class UserService implements IUserService {
 
     @Override
     public String info(Long chatId) {
+        iDatabase.mapperUserName(iUser.getChatId(), iUser.getUserName());
         return iDatabase.getUserInfo(chatId);
     }
 
@@ -112,6 +123,7 @@ public class UserService implements IUserService {
                     iUser.setBirthDate(day +"."+ month +"."+ year);
                     birthDay = false;
                     iDatabase.mapperBirthDay(iUser.getChatId(), iUser.getBirthDate());
+                    iDatabase.mapperUser(chatId, iUser);
                     day = 0;
                     month = 0;
                     year = 0;
@@ -136,8 +148,9 @@ public class UserService implements IUserService {
         }
         return "/addBirthDay";
     }
-
     public String echo(String message) {
+        iDatabase.mapperUserName(iUser.getChatId(), iUser.getUserName());
         return message;
     }
+
 }
