@@ -10,6 +10,8 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j
 @Getter
@@ -18,6 +20,7 @@ import java.net.URL;
 public class PingTask implements IPingTask {
     @Value("https://www.google.com")
     private String url;
+    List<String> ping = new ArrayList();
 
 
     @Scheduled(fixedRateString = "60000")
@@ -26,8 +29,9 @@ public class PingTask implements IPingTask {
             URL url = new URL(getUrl());
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.connect();
-            log.info(url.getHost(), connection.getResponseCode());
-
+            log.info("Ping {}, OK: response code {}", url.getHost(), connection.getResponseCode());
+            ping.add(url.getHost());
+            ping.remove(0);
             connection.disconnect();
         } catch (IOException e) {
             log.info("ping failed");
