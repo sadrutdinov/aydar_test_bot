@@ -92,19 +92,7 @@
             <artifactId>springfox-boot-starter</artifactId>
             <version>3.0.0</version>
         </dependency>
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger2</artifactId>
-            <scope>compile</scope>
-            <version>3.0.0</version>
-        </dependency>
 
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger-ui</artifactId>
-            <scope>compile</scope>
-            <version>3.0.0</version>
-        </dependency>
 
 
  </dependencies>

@@ -1,9 +1,11 @@
 package bot.controller;
 
 import bot.service.IRestService;
-import bot.service.IUserService;
 import bot.service.entities.IUser;
-import bot.service.entities.User;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
+@Api(value = "telegramBot", description = "operations on telegram bot users")
 public class UserController {
 
 
@@ -25,15 +28,28 @@ public class UserController {
         this.iRestService = iRestService;
     }
 
- @GetMapping(value = "/users/{phoneNumber}")
- public ResponseEntity<IUser> read(@PathVariable(name = "phoneNumber") String phoneNumber) {
+    @ApiOperation(value = "getting a user by phone number")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "the user is successfully obtained"),
+            @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+            @ApiResponse(code = 404, message = "the user is not found")
+    })
+    @GetMapping(value = "/users/{phoneNumber}")
+     public ResponseEntity<IUser> read(@PathVariable(name = "phoneNumber") String phoneNumber) {
      final IUser iUser = iRestService.read(phoneNumber);
 
      return iUser != null
              ? new ResponseEntity<>(iUser, HttpStatus.OK)
              : new ResponseEntity<>(HttpStatus.NOT_FOUND);
  }
-
+    @ApiOperation(value = "getting a list of all users")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "list of users received successfully"),
+            @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+            @ApiResponse(code = 404, message = "No users found")
+    })
     @GetMapping(value = "/users")
     public ResponseEntity<List<IUser>> read() {
         final List<IUser> users = iRestService.readAll();
@@ -43,7 +59,13 @@ public class UserController {
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-
+    @ApiOperation(value = "deleting a user by phone number")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "the user was successfully deleted"),
+            @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+            @ApiResponse(code = 404, message = "the user is not found")
+    })
     @DeleteMapping(value = "/users/{phoneNumber}")
     public ResponseEntity<?> delete(@PathVariable(name = "phoneNumber") String phoneNumber) {
         final boolean deleted = iRestService.delete(phoneNumber);
