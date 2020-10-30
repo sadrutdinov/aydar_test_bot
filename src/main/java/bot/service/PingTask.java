@@ -18,7 +18,7 @@ import java.util.List;
 @Setter
 @Component
 public class PingTask implements IPingTask {
-    @Value("https://www.google.com")
+    @Value("https://limitless-fortress-27063.herokuapp.com/swagger-ui/#/")
     private String url;
     List<String> ping = new ArrayList();
 
