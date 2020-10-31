@@ -1,7 +1,6 @@
-package bot.repository;
+package bot.service;
 
-import bot.service.entities.IUser;
-import bot.service.entities.User;
+import bot.entities.User;
 
 import java.util.Map;
 

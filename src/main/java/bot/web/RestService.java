@@ -1,8 +1,10 @@
-package bot.service;
+package bot.web;
 
 
-import bot.repository.IDatabase;
-import bot.service.entities.IUser;
+import bot.service.IDatabase;
+import bot.service.IRestService;
+import bot.service.IUser;
+import bot.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

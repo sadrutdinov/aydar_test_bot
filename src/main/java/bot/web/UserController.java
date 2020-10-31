@@ -1,7 +1,7 @@
-package bot.controller;
+package bot.web;
 
 import bot.service.IRestService;
-import bot.service.entities.IUser;
+import bot.service.IUser;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;

@@ -1,7 +1,5 @@
 package bot.service;
 
-import bot.service.entities.IUser;
-
 import java.util.List;
 
 public interface IRestService {

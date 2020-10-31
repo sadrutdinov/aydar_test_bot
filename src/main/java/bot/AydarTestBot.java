@@ -1,7 +1,7 @@
 package bot;
 
 
-import bot.controller.IController;
+import bot.service.IController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;

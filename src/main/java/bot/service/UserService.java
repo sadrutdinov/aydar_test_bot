@@ -1,7 +1,5 @@
 package bot.service;
 
-import bot.repository.IDatabase;
-import bot.service.entities.IUser;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

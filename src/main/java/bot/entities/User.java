@@ -1,5 +1,6 @@
-package bot.service.entities;
+package bot.entities;
 
+import bot.service.IUser;
 import lombok.Data;
 import org.springframework.stereotype.Component;
 

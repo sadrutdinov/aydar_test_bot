@@ -1,8 +1,8 @@
 package bot.repository;
 
-import bot.service.entities.IUser;
-import bot.service.entities.User;
-import lombok.Getter;
+import bot.service.IDatabase;
+import bot.service.IUser;
+import bot.entities.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import java.util.HashMap;
@@ -11,7 +11,7 @@ import java.util.Map;
 @Slf4j
 @Component
 
-public class Database implements IDatabase{
+public class Database implements IDatabase {
 
     public static final String ANSI_GREEN = "\u001B[32m";
     public static final String ANSI_RESET = "\u001B[0m";

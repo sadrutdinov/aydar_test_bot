@@ -1,4 +1,4 @@
-package bot.service.swagger;
+package bot.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,7 +19,7 @@ class SwaggerConfig {
     public Docket productApi() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("bot.controller"))
+                .apis(RequestHandlerSelectors.basePackage("bot.web"))
                 .paths(PathSelectors.any())
                 .build()
                 .apiInfo(metaData())

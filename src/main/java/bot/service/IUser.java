@@ -1,4 +1,4 @@
-package bot.service.entities;
+package bot.service;
 
 public interface IUser {
 
