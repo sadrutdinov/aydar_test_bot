@@ -21,20 +21,24 @@ public class AydarTestBot extends TelegramLongPollingBot {
 
     public String getBotToken() { return TOKEN; }
 
-
     private IUserMockService iUserMockService;
 
+
+
+
     @Autowired
-    public void setIUserService(IUserMockService iUserMockService) {
-        this.iUserMockService = iUserMockService;
+    public void setIUserMockService( IUserMockService iUserMockService) {
+                this.iUserMockService = iUserMockService;
     }
+
+
+
+
 
 
     @Override
     public void onUpdateReceived(Update update) {
-
-       SendMessage outMessage = iUserMockService.onUpdateReceivedController(update);
-
+        SendMessage outMessage = iUserMockService.onUpdateReceivedController(update);
         try {
             execute(outMessage);
         } catch (TelegramApiException e) {

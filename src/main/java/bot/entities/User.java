@@ -21,7 +21,7 @@ public class User implements IUser {
     private UUID id;
 
 
-
+ // todo убрать имплементацию
 
 
 }

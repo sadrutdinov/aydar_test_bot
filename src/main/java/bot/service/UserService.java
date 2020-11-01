@@ -24,15 +24,6 @@ public class UserService implements IUserService {
     private IUser iUser;
     private IDatabase iDatabase;
 
-//    @Autowired
-//    public void setIPingTask(IPingTask iPingTask) {
-//        this.iPingTask = iPingTask;
-//    }
-//
-//    private IPingTask iPingTask;
-//
-
-
 
 
     public List<Long> getChatIdList() {
@@ -133,8 +124,8 @@ public class UserService implements IUserService {
                 day = Integer.parseInt(xList[0]);
                 month = Integer.parseInt(xList[1]);
                 year = Integer.parseInt(xList[2]);
-                if (((day > 0) && (day <32)) && ((month > 0) && (month <13)) && ((year > 1900) && (year < 2021) && xList[0].length() == 2 && xList[1].length() == 2)) {
-                    iUser.setBirthDate(new Date(year, month-1, day));
+                if (((day > 0) && (day <32)) && ((month > 0) && (month <13)) && ((year > 1905) && (year < 2021) && xList[0].length() == 2 && xList[1].length() == 2)) {
+                    iUser.setBirthDate(new Date(year-1900, month-1, day));
                     birthDay = false;
                     iDatabase.mapperBirthDay(iUser.getChatId(), iUser.getBirthDate());
                     iDatabase.mapperUser(chatId, iUser);
