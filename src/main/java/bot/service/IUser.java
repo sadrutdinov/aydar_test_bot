@@ -1,12 +1,14 @@
 package bot.service;
 
+import java.util.Date;
+
 public interface IUser {
 
     public String getUserName();
     public void setUserName(String userName) ;
 
-    public String getBirthDate();
-    public void setBirthDate(String birthDate);
+    public Date getBirthDate();
+    public void setBirthDate(Date birthDate);
 
     public Long getChatId() ;
     public void setChatId(Long chatId);

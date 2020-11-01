@@ -1,7 +1,7 @@
-package bot.controller;
+package bot.service;
 
 
-import bot.service.IController;
+import bot.service.IUserMockService;
 import bot.service.IKeyboard;
 import bot.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +11,7 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 @Component
-public class Controller implements IController {
+public class UserMockService implements IUserMockService {
 
     private IKeyboard iKeyboard;
     private IUserService iUserService;

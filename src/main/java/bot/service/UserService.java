@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -128,12 +129,12 @@ public class UserService implements IUserService {
         }
         else if (birthDay) {
             try {
-                String[] xList = message.split("\\D");
+                String[] xList = message.split("\\.");
                 day = Integer.parseInt(xList[0]);
                 month = Integer.parseInt(xList[1]);
                 year = Integer.parseInt(xList[2]);
-                if (((day > 0) && (day <32)) && ((month > 0) && (month <13)) && ((year > 1900) && (year < 2021))) {
-                    iUser.setBirthDate(day +"."+ month +"."+ year);
+                if (((day > 0) && (day <32)) && ((month > 0) && (month <13)) && ((year > 1900) && (year < 2021) && xList[0].length() == 2 && xList[1].length() == 2)) {
+                    iUser.setBirthDate(new Date(year, month-1, day));
                     birthDay = false;
                     iDatabase.mapperBirthDay(iUser.getChatId(), iUser.getBirthDate());
                     iDatabase.mapperUser(chatId, iUser);
