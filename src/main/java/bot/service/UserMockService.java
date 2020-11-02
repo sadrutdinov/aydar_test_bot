@@ -27,7 +27,7 @@ public class UserMockService implements IUserMockService {
     List<Long> authorizedTracker = new ArrayList<>();
 
     @Autowired
-    public void setiMockServerService(IMockServerService iMockServerService) {
+    public void setIMockServerService(IMockServerService iMockServerService) {
         this.iMockServerService = iMockServerService;
     }
 
