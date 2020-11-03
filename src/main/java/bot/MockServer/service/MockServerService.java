@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-@Component
+
 public class MockServerService implements IMockServerService {
 
     private final RestTemplate restTemplate;

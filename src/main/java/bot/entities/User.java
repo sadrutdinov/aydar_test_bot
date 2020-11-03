@@ -14,11 +14,7 @@ public class User implements IUser {
     private Date birthDate;
     private Long chatId;
     private String phoneNumber;
-    private String firstName;
-    private String secondName;
-    private String middleName;
-    private Boolean isMale;
-    private UUID id;
+
 
 
  // todo убрать имплементацию
