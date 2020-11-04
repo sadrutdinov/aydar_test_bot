@@ -3,19 +3,22 @@ package bot.service;
 import java.util.List;
 
 public interface IUserService {
-    String start(Long chatId, String message, String userName);
-    String help(Long chatId, String message, String userName);
-    String echo(Long chatId, String message, String userName);
-    String info(Long chatId, String message, String userName);
-    String addBirthDay(String message, Long chatId);
-    void chatIdTracker(Long chatId);
-    String addPhoneNumber(Long chatId, String message);
+    void start(Long chatId, String phoneNumber, String userName);
 
-    long getChatId();
+    String help(Long chatId, String message, String userName);
+
+    String echo(Long chatId, String message, String userName);
+
+    String info(Long chatId, String message, String userName);
+
+    String addBirthDay(String message, Long chatId);
+
+    void chatIdTracker(Long chatId);
+
     void setChatId(long chatId);
-    String getMessage();
+
     void setMessage(String outMessage);
+
     List<Long> getChatIdList();
-    List<Long> getPhoneNumberList();
 }
 

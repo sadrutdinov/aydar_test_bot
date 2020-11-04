@@ -17,23 +17,21 @@ public class AydarTestBot extends TelegramLongPollingBot {
 
     private static final String USERNAME = "aydar_test_bot";
 
-    public String getBotUsername() { return USERNAME; }
+    public String getBotUsername() {
+        return USERNAME;
+    }
 
-    public String getBotToken() { return TOKEN; }
+    public String getBotToken() {
+        return TOKEN;
+    }
 
     private IUserMockService iUserMockService;
 
 
-
-
     @Autowired
-    public void setIUserMockService( IUserMockService iUserMockService) {
-                this.iUserMockService = iUserMockService;
+    public void setIUserMockService(IUserMockService iUserMockService) {
+        this.iUserMockService = iUserMockService;
     }
-
-
-
-
 
 
     @Override

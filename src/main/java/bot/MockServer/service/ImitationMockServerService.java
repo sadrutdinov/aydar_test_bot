@@ -1,10 +1,9 @@
 package bot.MockServer.service;
 
 import bot.MockServer.entities.UserDTO;
-import org.springframework.http.HttpMethod;
+import bot.service.IMockServerService;
 
 import java.util.Date;
-import java.util.Set;
 
 
 public class ImitationMockServerService implements IMockServerService {

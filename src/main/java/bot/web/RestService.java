@@ -1,10 +1,8 @@
 package bot.web;
 
 
-import bot.service.IDatabase;
-import bot.service.IRestService;
-import bot.service.IUser;
-import bot.service.IUserService;
+import bot.entities.User;
+import bot.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -17,6 +15,12 @@ public class RestService implements IRestService {
 
     private IDatabase iDatabase;
     private IUserService iUserService;
+    private IUserMockService iUserMockService;
+
+    @Autowired
+    public void setiUserMockService(IUserMockService iUserMockService) {
+        this.iUserMockService = iUserMockService;
+    }
 
     @Autowired
     public void setIDatabase(IDatabase iDatabase) {
@@ -29,7 +33,7 @@ public class RestService implements IRestService {
 
 
     @Override
-    public IUser read(String phoneNumber) {
+    public User read(String phoneNumber) {
         Long chatId = 0L;
         for (Map.Entry<Long, String> pair : iDatabase.getMapPhoneNumber().entrySet()) {
             if (phoneNumber.equals(pair.getValue())) {
@@ -40,7 +44,7 @@ public class RestService implements IRestService {
     }
 
     @Override
-    public List<IUser> readAll() {
+    public List<User> readAll() {
         return new ArrayList<>(iDatabase.getUserMap().values());
     }
 
@@ -58,7 +62,8 @@ public class RestService implements IRestService {
              iDatabase.getMapBirthDay().remove(chatId);
              iDatabase.getMapUserName().remove(chatId);
              iUserService.getChatIdList().remove(chatId);
-             iUserService.getPhoneNumberList().remove(chatId);
+             iUserMockService.getAuthorizedTracker().remove(chatId);
+           //
 
               return true;
           }

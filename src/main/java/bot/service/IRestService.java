@@ -1,12 +1,14 @@
 package bot.service;
 
+import bot.entities.User;
+
 import java.util.List;
 
 public interface IRestService {
 
-    IUser read(String phoneNumber);
+    User read(String phoneNumber);
 
-    List<IUser> readAll();
+    List<User> readAll();
 
     boolean delete(String phoneNumber);
 }

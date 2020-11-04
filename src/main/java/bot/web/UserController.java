@@ -1,7 +1,7 @@
 package bot.web;
 
+import bot.entities.User;
 import bot.service.IRestService;
-import bot.service.IUser;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -36,8 +36,8 @@ public class UserController {
             @ApiResponse(code = 404, message = "the user is not found")
     })
     @GetMapping(value = "/users/{phoneNumber}")
-     public ResponseEntity<IUser> read(@PathVariable(name = "phoneNumber") String phoneNumber) {
-     final IUser iUser = iRestService.read(phoneNumber);
+     public ResponseEntity<User> read(@PathVariable(name = "phoneNumber") String phoneNumber) {
+     final User iUser = iRestService.read(phoneNumber);
 
      return iUser != null
              ? new ResponseEntity<>(iUser, HttpStatus.OK)
@@ -51,8 +51,8 @@ public class UserController {
             @ApiResponse(code = 404, message = "No users found")
     })
     @GetMapping(value = "/users")
-    public ResponseEntity<List<IUser>> read() {
-        final List<IUser> users = iRestService.readAll();
+    public ResponseEntity<List<User>> read() {
+        final List<User> users = iRestService.readAll();
 
         return users != null &&  !users.isEmpty()
                 ? new ResponseEntity<>(users, HttpStatus.OK)

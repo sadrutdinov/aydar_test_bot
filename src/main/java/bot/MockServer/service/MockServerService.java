@@ -1,9 +1,10 @@
 package bot.MockServer.service;
 
 import bot.MockServer.entities.UserDTO;
+import bot.service.IMockServerService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.*;
-import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import java.util.Collections;
 import java.util.HashMap;
@@ -13,9 +14,10 @@ import java.util.Map;
 
 public class MockServerService implements IMockServerService {
 
-    private final RestTemplate restTemplate;
+    private RestTemplate restTemplate;
 
-    public MockServerService(RestTemplateBuilder restTemplateBuilder) {
+    @Autowired
+    public void setRestTemplate (RestTemplateBuilder restTemplateBuilder) {
         this.restTemplate = restTemplateBuilder.build();
     }
 
@@ -50,7 +52,7 @@ public class MockServerService implements IMockServerService {
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
 
-        Map<String, Object> map = new HashMap<String, Object>();
+        Map<String, Object> map = new HashMap<>();
         map.put("birthDay", userDTO.getBirthDay());
         map.put("chatId", userDTO.getChatId());
         map.put("firstName", userDTO.getFirstName() );
@@ -59,7 +61,7 @@ public class MockServerService implements IMockServerService {
         map.put("phone",userDTO.getPhone());
         map.put("secondName",userDTO.getSecondName());
 
-        HttpEntity<Map<String, Object>> entity = new HttpEntity<Map<String, Object>>(map, headers);
+        HttpEntity<Map<String, Object>> entity = new HttpEntity<>(map, headers);
 
         ResponseEntity<String> response = this.restTemplate.postForEntity(url, entity, String.class);
 
@@ -78,7 +80,7 @@ public class MockServerService implements IMockServerService {
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
 
-        HttpEntity<String> entity = new HttpEntity<String>(headers);
+        HttpEntity<String> entity = new HttpEntity<>(headers);
 
         ResponseEntity<UserDTO> response = this.restTemplate.postForEntity(url, entity, UserDTO.class);
 
