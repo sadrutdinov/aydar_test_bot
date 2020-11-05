@@ -53,7 +53,6 @@ public class Database implements IDatabase {
         if (!mapBirthDay.containsKey(chatId)) {
             mapBirthDay.put(chatId, birthDay);
             log.info((ANSI_GREEN + "chatId: " + chatId + ", birthDay: " + birthDay + ANSI_RESET));
-
         }
     }
 
@@ -68,19 +67,19 @@ public class Database implements IDatabase {
 
 
     @Override
-    public void mapperUser(Long chatId, User iUser) {
-        if (mapUserName.get(chatId) != null && mapBirthDay.get(chatId) != null && mapPhoneNumber.get(chatId) != null) {
-            userMap.put(chatId, iUser);
-            log.info(userMap.get(chatId).toString());
-        }
+    public void mapperUser(Long chatId) {
+            userMap.put(chatId, new User(chatId, mapUserName.get(chatId), mapBirthDay.get(chatId), mapPhoneNumber.get(chatId)));
+            log.info(userMap.values().toString());
+            //log.info(iUser.toString());
+
     }
 
     public String getUserInfo(Long chatId) {
-        if (mapUserName.containsKey(chatId)) {
-            return "chatId: " + chatId + "\n" + "userName: " + mapUserName.get(chatId) + "\n" + "birthDay: " + mapBirthDay.get(chatId) +
-                    "\n" + "phoneNumber: " + mapPhoneNumber.get(chatId);
+        if (userMap.containsKey(chatId)) {
+            return "chatId: " + userMap.get(chatId).getChatId() + "\n" + "userName: " + userMap.get(chatId).getUserName() + "\n" + "birthDay: " + userMap.get(chatId).getBirthDate() +
+                    "\n" + "phoneNumber: " + userMap.get(chatId).getPhoneNumber();
         } else
-            return "данные отсутствуют";
+            return "для доступа к данным требуется ввести Дату Рождения";
     }
 
 }

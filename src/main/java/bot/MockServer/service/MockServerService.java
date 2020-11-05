@@ -6,10 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
+
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-
 
 
 public class MockServerService implements IMockServerService {
@@ -17,7 +17,7 @@ public class MockServerService implements IMockServerService {
     private RestTemplate restTemplate;
 
     @Autowired
-    public void setRestTemplate (RestTemplateBuilder restTemplateBuilder) {
+    public void setRestTemplate(RestTemplateBuilder restTemplateBuilder) {
         this.restTemplate = restTemplateBuilder.build();
     }
 
@@ -25,18 +25,19 @@ public class MockServerService implements IMockServerService {
     public UserDTO[] getUserDTO() {
         String url = "https://serene-coast-56441.herokuapp.com/api/users";
         ResponseEntity<UserDTO[]> response = this.restTemplate.getForEntity(url, UserDTO[].class);
-        if(response.getStatusCode() == HttpStatus.OK) {
+        if (response.getStatusCode() == HttpStatus.OK) {
             return response.getBody();
         } else {
             return null;
         }
     }
+
     //GetById
     public UserDTO getUserDTObyId(String id) {
         String url = "https://serene-coast-56441.herokuapp.com/api/users/{id}";
 
         ResponseEntity<UserDTO> response = this.restTemplate.getForEntity(url, UserDTO.class, id);
-        if(response.getStatusCode() == HttpStatus.OK) {
+        if (response.getStatusCode() == HttpStatus.OK) {
             return response.getBody();
         } else {
             return null;
@@ -55,11 +56,11 @@ public class MockServerService implements IMockServerService {
         Map<String, Object> map = new HashMap<>();
         map.put("birthDay", userDTO.getBirthDay());
         map.put("chatId", userDTO.getChatId());
-        map.put("firstName", userDTO.getFirstName() );
+        map.put("firstName", userDTO.getFirstName());
         map.put("male", userDTO.getIsMale());
         map.put("middleName", userDTO.getMiddleName());
-        map.put("phone",userDTO.getPhone());
-        map.put("secondName",userDTO.getSecondName());
+        map.put("phone", userDTO.getPhone());
+        map.put("secondName", userDTO.getSecondName());
 
         HttpEntity<Map<String, Object>> entity = new HttpEntity<>(map, headers);
 
@@ -84,7 +85,7 @@ public class MockServerService implements IMockServerService {
 
         ResponseEntity<UserDTO> response = this.restTemplate.postForEntity(url, entity, UserDTO.class);
 
-        if(response.getStatusCode() == HttpStatus.OK) {
+        if (response.getStatusCode() == HttpStatus.OK) {
             return response.getBody();
         } else {
             return null;

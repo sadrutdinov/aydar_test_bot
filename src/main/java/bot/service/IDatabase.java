@@ -14,7 +14,7 @@ public interface IDatabase {
 
     void mapperPhoneNumber(Long chatId, String phoneNumber);
 
-    void mapperUser(Long chatId, User user);
+    void mapperUser(Long chatId);
 
     Map<Long, String> getMapPhoneNumber();
 
