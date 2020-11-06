@@ -48,7 +48,7 @@ public class UserMockService implements IUserMockService {
     public SendMessage onUpdateReceivedController(Update update) {
         Message inMessage = update.getMessage();
         SendMessage outMessage = new SendMessage();
-        outMessage.enableMarkdown(true);
+        outMessage.enableMarkdown(false);
 
         iUserService.setChatId(inMessage.getChatId());
         Long chatId = inMessage.getChatId();  // input ChatId
@@ -56,7 +56,7 @@ public class UserMockService implements IUserMockService {
         String message = inMessage.getText();   //input message
         String userName = inMessage.getChat().getUserName();
 
-        if (message.equals("/start") && !isBirthDate || !authorizedTracker.contains(chatId)) {
+        if (message.equals("/start") && !isBirthDate && !authorizedTracker.contains(chatId)|| !authorizedTracker.contains(chatId)) {
             if (message.equals("/start")) {
                 outMessage.setText("Привет, я классный бот, который умеет запоминать день рождения. Чтобы продолжить, введите номер телефона в формате +79XXXXXXXXX");
 
@@ -72,16 +72,16 @@ public class UserMockService implements IUserMockService {
                     authorizedTracker.add(chatId);
                     iUserService.start(chatId, message, userName);
                 } else {
-                    outMessage.setText("введен неизвестный номер, повторите попытку");
+                    outMessage.setText("для авторизации введите номер телефона в формате +79XXXXXXXXX");
 
                 }
-            } else outMessage.setText("введен неизвестный номер, повторите попытку");
+            } else outMessage.setText("для авторизации введите номер телефона в формате +79XXXXXXXXX");
 
         } else if (message.equals("/help") && !isBirthDate && authorizedTracker.contains(chatId)) {
-            outMessage.setText(iUserService.help(chatId, message, userName));
+            outMessage.setText(iUserService.help());
             iKeyboard.setButtons(outMessage);
         } else if (message.equals("/info") && !isBirthDate && authorizedTracker.contains(chatId)) {
-            outMessage.setText(iUserService.info(chatId, message, userName));
+            outMessage.setText(iUserService.info());
             iKeyboard.setButtons(outMessage);
         } else if (message.equals("/addBirthDay") && authorizedTracker.contains(chatId) || isBirthDate) {
             String outMsg = iUserService.addBirthDay(message, chatId);
@@ -94,7 +94,7 @@ public class UserMockService implements IUserMockService {
             outMessage.setText(outMsg);
             iKeyboard.setButtons(outMessage);
         } else {
-            outMessage.setText(iUserService.echo(chatId, message, userName));
+            outMessage.setText(iUserService.echo(message));
             iKeyboard.setButtons(outMessage);
         }
         outMessage.setChatId(chatId);

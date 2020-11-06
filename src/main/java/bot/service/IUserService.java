@@ -9,11 +9,11 @@ import java.util.Map;
 public interface IUserService {
     void start(Long chatId, String phoneNumber, String userName);
 
-    String help(Long chatId, String message, String userName);
+    String help();
 
-    String echo(Long chatId, String message, String userName);
+    String echo(String message);
 
-    String info(Long chatId, String message, String userName);
+    String info();
 
     String addBirthDay(String message, Long chatId);
 
@@ -30,7 +30,7 @@ public interface IUserService {
     public Map<Long, String> getMapUserName();
 
     public Map<Long, Date> getMapBirthDay();
-    public Map<Long, User> getUserMap();
+
 
 }
 
