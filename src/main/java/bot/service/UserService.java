@@ -5,9 +5,7 @@ import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 
 @Data
@@ -23,17 +21,35 @@ public class UserService implements IUserService {
     private int month;
     private int year;
     private User iUser;
-    private IDatabase iDatabase;
     private List<Long> chatIdList = new ArrayList<>();
+
+    //maps and various list's are needed for working with multiple users
+    Map<Long, String> mapUserName = new HashMap<>();
+    Map<Long, Date> mapBirthDay = new HashMap<>();
+    Map<Long, String> mapPhoneNumber = new HashMap<>();
+    Map<Long, User> userMap = new HashMap<>();
+
+
+    public Map<Long, String> getMapPhoneNumber() {
+        return mapPhoneNumber;
+    }
+
+    public Map<Long, String> getMapUserName() {
+        return mapUserName;
+    }
+
+    public Map<Long, Date> getMapBirthDay() {
+        return mapBirthDay;
+    }
+
+    public Map<Long, User> getUserMap() {
+        return userMap;
+    }
 
     public List<Long> getChatIdList() {
         return chatIdList;
     }
 
-    @Autowired
-    public void setIDatabase(IDatabase iDatabase) {
-        this.iDatabase = iDatabase;
-    }
 
     @Autowired
     public void setIUser(User user) {
@@ -48,15 +64,14 @@ public class UserService implements IUserService {
 
     @Override
     public void start(Long chatId, String phoneNumber, String userName) {
-
-        iDatabase.mapperUserName(chatId, userName);
-        iDatabase.mapperPhoneNumber(chatId, phoneNumber);
+        mapUserName.put(chatId, userName);
+        mapPhoneNumber.put(chatId, phoneNumber);
     }
 
     @Override
     public String help(Long chatId, String message, String userName) {
         this.message = message;
-     //   iDatabase.mapperUserName(chatId, userName);
+
         return "Подсказка по командам:" + "\n" +
                 "/help - вызов подсказок по командам \n" +
                 "/addBirthDay - добавить дату рождения \n" +
@@ -64,9 +79,12 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public String info(Long chatId, String message, String userName) {
-    //    iDatabase.mapperUserName(chatId, userName);
-        return iDatabase.getUserInfo(chatId);
+    public String info(Long chatId, String message, String userName) { //todo
+        if (userMap.containsKey(chatId)) {
+            return "chatId: " + userMap.get(chatId).getChatId() + "\n" + "userName: " + userMap.get(chatId).getUserName() + "\n" + "birthDay: " + userMap.get(chatId).getBirthDate() +
+                    "\n" + "phoneNumber: " + userMap.get(chatId).getPhoneNumber();
+        } else
+            return "для доступа к данным требуется ввести Дату Рождения"; //todo
     }
 
     @Override
@@ -83,8 +101,10 @@ public class UserService implements IUserService {
                 year = Integer.parseInt(xList[2]);
                 if (((day > 0) && (day < 32)) && ((month > 0) && (month < 13)) && ((year > 1905) && (year < 2021) && xList[0].length() == 2 && xList[1].length() == 2)) {
                     birthDay = false;
-                    iDatabase.mapperBirthDay(chatId, new Date(year - 1900, month - 1, day, 12, 00, 00));
-                    iDatabase.mapperUser(chatId);
+
+                    mapBirthDay.put(chatId, new Date(year - 1900, month - 1, day, 12, 00, 00));
+
+                    userMap.put(chatId, new User(chatId, mapUserName.get(chatId), mapBirthDay.get(chatId), mapPhoneNumber.get(chatId)));
                     day = 0;
                     month = 0;
                     year = 0;
@@ -110,7 +130,7 @@ public class UserService implements IUserService {
     }
 
     public String echo(Long chatId, String message, String userName) {
-       // iDatabase.mapperUserName(chatId, userName);
+
         return message;
     }
 

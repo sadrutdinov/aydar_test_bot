@@ -13,7 +13,7 @@ import java.util.Map;
 @Component
 public class RestService implements IRestService {
 
-    private IDatabase iDatabase;
+
     private IUserService iUserService;
     private IUserMockService iUserMockService;
 
@@ -22,10 +22,8 @@ public class RestService implements IRestService {
         this.iUserMockService = iUserMockService;
     }
 
-    @Autowired
-    public void setIDatabase(IDatabase iDatabase) {
-        this.iDatabase = iDatabase;
-    }
+
+
     @Autowired
     public void setIUserService(IUserService iUserService) {
         this.iUserService = iUserService;
@@ -35,39 +33,38 @@ public class RestService implements IRestService {
     @Override
     public User read(String phoneNumber) {
         Long chatId = 0L;
-        for (Map.Entry<Long, String> pair : iDatabase.getMapPhoneNumber().entrySet()) {
+        for (Map.Entry<Long, String> pair : iUserService.getMapPhoneNumber().entrySet()) {
             if (phoneNumber.equals(pair.getValue())) {
                 chatId = pair.getKey();
             }
         }
-        return iDatabase.getUserMap().get(chatId);
+        return iUserService.getUserMap().get(chatId);
     }
 
     @Override
     public List<User> readAll() {
-        return new ArrayList<>(iDatabase.getUserMap().values());
+        return new ArrayList<>(iUserService.getUserMap().values());
     }
 
     @Override
     public boolean delete(String phoneNumber) {
         Long chatId = 0L;
-        for (Map.Entry<Long, String> pair : iDatabase.getMapPhoneNumber().entrySet()) {
+        for (Map.Entry<Long, String> pair : iUserService.getMapPhoneNumber().entrySet()) {
             if (phoneNumber.equals(pair.getValue())) {
                 chatId = pair.getKey();
             }
         }
-          if (iDatabase.getUserMap().containsKey(chatId)) {
-             iDatabase.getUserMap().remove(chatId);
-             iDatabase.getMapPhoneNumber().remove(chatId);
-             iDatabase.getMapBirthDay().remove(chatId);
-             iDatabase.getMapUserName().remove(chatId);
-             iUserService.getChatIdList().remove(chatId);
-             iUserMockService.getAuthorizedTracker().remove(chatId);
-           //
+        if (iUserService.getUserMap().containsKey(chatId)) {
+            iUserService.getUserMap().remove(chatId);
+            iUserService.getMapPhoneNumber().remove(chatId);
+            iUserService.getMapBirthDay().remove(chatId);
+            iUserService.getMapUserName().remove(chatId);
+            iUserService.getChatIdList().remove(chatId);
+            iUserMockService.getAuthorizedTracker().remove(chatId);
+            //
 
-              return true;
-          }
-          else return false;
+            return true;
+        } else return false;
     }
 
 }
