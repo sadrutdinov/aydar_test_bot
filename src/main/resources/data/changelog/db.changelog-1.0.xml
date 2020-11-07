@@ -6,13 +6,16 @@
                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
 
     <changeSet author="aydar" id="changelog-1.0">
+
         <createTable tableName="users">
             <column name="chat_id" type="bigint">
                 <constraints primaryKey="true"/>
             </column>
-            <column name="user_name" type="varchar"></column>
-            <column name="birth_date" type="datetime"></column>
-            <column name="phone_number" type="varchar"></column>
+            <column name="user_name" type="varchar"/>
+            <column name="birth_date" type="datetime"/>
+            <column name="phone_number" type="varchar"/>
         </createTable>
+
+
     </changeSet>
 </databaseChangeLog>

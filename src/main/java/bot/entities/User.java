@@ -1,6 +1,7 @@
 package bot.entities;
 
 import lombok.Data;
+import org.hibernate.envers.Audited;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.Column;
@@ -12,6 +13,7 @@ import java.util.Date;
 @Data
 @Component
 @Entity
+@Audited
 @Table(name = "users")
 public class User {
     @Id
