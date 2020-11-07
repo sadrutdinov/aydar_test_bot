@@ -13,5 +13,5 @@ public interface IRepository {
 
     List<User> getAllUser();
 
-    public boolean containsUser(Long chatId);
+    boolean containsUser(Long chatId);
 }

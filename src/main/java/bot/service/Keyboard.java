@@ -12,7 +12,7 @@ import java.util.List;
 
 @Component
 public class Keyboard implements IKeyboard {
-    public void setButtons (SendMessage sendMessage) {
+    public void setButtons(SendMessage sendMessage) {
         ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
         sendMessage.setReplyMarkup(replyKeyboardMarkup);
         replyKeyboardMarkup.setSelective(true);
@@ -23,9 +23,9 @@ public class Keyboard implements IKeyboard {
         KeyboardRow keyboardRowFirst = new KeyboardRow();
         KeyboardRow keyboardRowSecond = new KeyboardRow();
 
-        keyboardRowFirst.add(new KeyboardButton( "/addBirthDay"));
-        keyboardRowFirst.add(new KeyboardButton( "/help"));
-        keyboardRowFirst.add(new KeyboardButton( "/info"));
+        keyboardRowFirst.add(new KeyboardButton("/addBirthDay"));
+        keyboardRowFirst.add(new KeyboardButton("/help"));
+        keyboardRowFirst.add(new KeyboardButton("/info"));
         keyboardRowsList.add(keyboardRowFirst);
         keyboardRowsList.add(keyboardRowSecond);
         replyKeyboardMarkup.setKeyboard(keyboardRowsList);

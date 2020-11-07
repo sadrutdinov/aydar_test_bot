@@ -11,8 +11,8 @@ public class ImitationMockServerService implements IMockServerService {
     public UserDTO[] getUserDTO() {
         UserDTO userDTO = new UserDTO();
         UserDTO userDTO2 = new UserDTO();
-        UserDTO[] arrayUserDTOS = new UserDTO[] {userDTO, userDTO2};
-        return  arrayUserDTOS;
+        UserDTO[] arrayUserDTOS = new UserDTO[]{userDTO, userDTO2};
+        return arrayUserDTOS;
     }
 
     @Override

@@ -29,7 +29,7 @@ public class UserService implements IUserService {
     Map<Long, String> mapUserName = new HashMap<>();
     Map<Long, Date> mapBirthDay = new HashMap<>();
     Map<Long, String> mapPhoneNumber = new HashMap<>();
-    //Map<Long, User> userMap = new HashMap<>();
+
 
     @Autowired
     public void setIRepository(IRepository iRepository) {
@@ -49,9 +49,6 @@ public class UserService implements IUserService {
         return mapBirthDay;
     }
 
-//    //public Map<Long, User> getUserMap() {
-//        return userMap;
-//    }
 
     public List<Long> getChatIdList() {
         return chatIdList;
@@ -107,12 +104,9 @@ public class UserService implements IUserService {
                 year = Integer.parseInt(xList[2]);
                 if (((day > 0) && (day < 32)) && ((month > 0) && (month < 13)) && ((year > 1905) && (year < 2021) && xList[0].length() == 2 && xList[1].length() == 2)) {
                     birthDay = false;
-
                     mapBirthDay.put(chatId, new Date(year - 1900, month - 1, day, 12, 00, 00));
                     log.info("chatId: " + chatId + ", birthDay: " + mapBirthDay.get(chatId));
-                  //  userMap.put(chatId, new User(chatId, mapUserName.get(chatId), mapBirthDay.get(chatId), mapPhoneNumber.get(chatId)));
                     iRepository.createUser(new User(chatId, mapUserName.get(chatId), mapBirthDay.get(chatId), mapPhoneNumber.get(chatId)));
-                    //log.info(userMap.values().toString());
                     day = 0;
                     month = 0;
                     year = 0;

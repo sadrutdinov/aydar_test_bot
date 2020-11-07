@@ -25,11 +25,11 @@ public interface IUserService {
 
     List<Long> getChatIdList();
 
-    public Map<Long, String> getMapPhoneNumber();
+    Map<Long, String> getMapPhoneNumber();
 
-    public Map<Long, String> getMapUserName();
+    Map<Long, String> getMapUserName();
 
-    public Map<Long, Date> getMapBirthDay();
+    Map<Long, Date> getMapBirthDay();
 
 
 }

@@ -19,10 +19,7 @@ public class UserDTO {
     private String phone;
     private String secondName;
 
-//    public String toString(UserDTO[] list, int i){
-//        return list[i].getBirthDay() + " " + list[i].getPhone();
-//    }
-//
+
 }
 
 
